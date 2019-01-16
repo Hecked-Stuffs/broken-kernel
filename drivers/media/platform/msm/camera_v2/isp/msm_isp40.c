@@ -592,6 +592,8 @@ static void msm_vfe40_read_irq_status_and_clear(struct vfe_device *vfe_dev,
 	*irq_status0 &= vfe_dev->irq0_mask;
 	*irq_status1 &= vfe_dev->irq1_mask;
 
+#ifndef CONFIG_MOT_CAMERA_COMPAT_2016
+
 	if (*irq_status0 &&
 		(*irq_status0 == msm_camera_io_r(vfe_dev->vfe_base + 0x38))) {
 		msm_camera_io_w(*irq_status0, vfe_dev->vfe_base + 0x30);
@@ -1798,6 +1800,8 @@ static int msm_vfe40_axi_restart(struct vfe_device *vfe_dev,
 	msm_camera_io_w(0x0, vfe_dev->vfe_base + 0x2C0);
 
 	if (vfe_dev->recovery_irq0_mask || vfe_dev->recovery_irq1_mask)
+
+#endif
 
 		msm_vfe40_config_irq(vfe_dev, vfe_dev->recovery_irq0_mask,
 		vfe_dev->recovery_irq1_mask, MSM_ISP_IRQ_SET);
